@@ -11,25 +11,36 @@ class ItemsColumn extends React.Component {
     super(props);
     this.state = {
       type: "default",
-      data: null
+      data: null,
+      isLoading: false,
+      error: null,
     };
   }
 
-  componentDidMount() {
+  getData = () => {
     axios
-      .get('/tz20/list.json')
-      .then(function (response) {
-        console.log(response.data)
-        this.setState({data: response.data.data});
-        console.log('hah');
-        console.log(this.state)
+      .get("/tz20/list.json")
+      .then((res) => {
+        return map(res.data.data, (item) => {
+          return {
+            id: item.id,
+            name: item.name,
+            shortInfo: item.shortInfo,
+            more: item.more,
+            type: 'default',
+            deleted: false,
+            deletedDate: null
+          };
+        });
       })
-      .catch(function (error) {
-        // handle error
+      .then((res) => {
+        this.setState({ data: res, isLoading: false });
       })
-      .finally(function () {
-        // always executed
-      });
+      .catch((error) => this.setState({ error, isLoading: false }));
+  };
+
+  componentDidMount() {
+    this.getData();
   }
 
   handleButtonClick = () => {};
@@ -38,7 +49,6 @@ class ItemsColumn extends React.Component {
 
   render() {
     const { data } = this.state;
-    console.log(this.state);
     return (
       <div className="items-column-wrapper">
         {map(data, (item) => {
