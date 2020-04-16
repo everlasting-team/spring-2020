@@ -1,15 +1,6 @@
 import React from "react";
-import LeftNav from "./../LeftNav";
-import PostPage from "./../PostPage";
-import "./App.scss";
+import Blog from "./../Blog";
 
-function App() {
-  return (
-    <div className="App">
-      <LeftNav />
-      <PostPage />
-    </div>
-  );
-}
+const App = () => <Blog />;
 
 export default App;

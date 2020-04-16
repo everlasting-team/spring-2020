@@ -1,59 +1,60 @@
 import React from "react";
+
 import Input from "./../../common/Input";
-import axios from "axios";
+import PostsCards from "./../PostsCards";
+
+import { getCardsData } from "../../api";
+
 import "./index.scss";
 
 class LeftNav extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      searchValue: "",
-      cards: null,
-      isLoading: false,
-      error: null,
+      cards: [],
+      filteredCards: null,
     };
   }
 
-  handleSearchInputChange = (e) => {
-    this.setState({ searchValue: e.target.value });
-  };
-
-  getCardsData = () => {
-    axios
-      .get("/tz20/list.json")
-      .then((res) => {
-        return res.data.data.map((item) => {
-          return {
-            id: item.id,
-            name: item.name,
-            shortInfo: item.shortInfo,
-            more: item.more,
-            type: "default",
-            deleted: false,
-            deletedDate: null,
-          };
-        });
-      })
-      .then((res) => {
-        this.setState({ cards: res, isLoading: false });
-      })
-      .catch((error) => this.setState({ error, isLoading: false }));
-  };
-
   componentDidMount() {
-    this.getCardsData();
+    this.loadCards();
   }
 
+  handleSearchInputChange = ({ target: { value } }) => {
+    const filteredCards = this.state.cards.filter(
+      (item) => item.name.toLowerCase().search(value.toLowerCase()) !== -1
+    );
+
+    this.setState({ filteredCards });
+  };
+
+  loadCards = async () => {
+    const cards = await getCardsData();
+
+    this.setState({ cards });
+  };
+
   render() {
-    const { searchValue } = this.state;
+    const { searchValue, filteredCards, cards } = this.state;
+    const { handleCardClick } = this.props;
+
     return (
       <div className="left-nav-wrapper">
-        <Input
-          placeholder="Search..."
-          value={searchValue}
-          name="searchInput"
-          handleChange={this.handleSearchInputChange}
-        />
+        <div className="search-input">
+          <Input
+            placeholder="Search..."
+            value={searchValue}
+            name="searchInput"
+            handleChange={this.handleSearchInputChange}
+          />
+        </div>
+        <div className="cards-wrapper">
+          <PostsCards
+            cards={filteredCards || cards}
+            onCardClick={handleCardClick}
+            onButtonClick={this.handleButtonClick}
+          />
+        </div>
       </div>
     );
   }

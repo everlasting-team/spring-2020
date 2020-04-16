@@ -1,4 +1,9 @@
 .post-page-wrapper {
+  color: white;
   width: 70%;
   background-color: #190061;
+
+  &.no-posts {
+    padding-top: 300px;
+  }
 }

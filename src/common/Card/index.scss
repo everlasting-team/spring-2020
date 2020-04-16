@@ -1,0 +1,32 @@
+.card-wrapper {
+  background: rgb(255, 255, 255);
+  border: 2px solid black;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+
+  .card-header {
+    background: rgba(102, 102, 102, 0.3);
+    display: flex;
+    flex-direction: row-reverse;
+  }
+
+  .card-body {
+    padding: 5px 20px;
+    text-align: left;
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-self: space-around;
+
+    .title {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+  }
+
+  &:not(:last-child) {
+    margin-bottom: 5px;
+  }
+}

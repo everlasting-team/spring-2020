@@ -5,15 +5,16 @@ class Input extends React.Component {
   render() {
     const { placeholder, value, name, handleChange } = this.props;
     return (
-      <div>
+      <div className="input-wrapper">
         <input
+          className="input"
           type="text"
           placeholder={placeholder}
           value={value}
           name={name}
           onChange={handleChange}
         />
-      </div>
+      </div>  
     );
   }
 }
