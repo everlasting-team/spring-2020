@@ -1,3 +1,5 @@
+@import './../../index.scss';
+
 .left-nav-wrapper {
   min-width: 400px;
   max-height: 100vh;
@@ -22,20 +24,15 @@
   }
 
   .cards-wrapper::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-    border-radius: 10px;
-    background-color: #0c0032;
+    @include scrollbar-track();
   }
 
   .cards-wrapper::-webkit-scrollbar {
-    width: 5px;
-    background-color: #0c0032;
+    @include scrollbar();
   }
 
   .cards-wrapper::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-    background-color: rgb(255, 255, 255);
+    @include scrollbar-thumb();
   }
 
   .posts-cards-wrapper {

@@ -19,16 +19,16 @@ const PostPage = ({ post }) => {
 
   return (
     <div className="post-page-wrapper">
-      <div className="post-info">
-        <h1 className="title">{name}</h1>
-        <h3 className="short-info">{shortInfo}</h3>
-        <p className="bio">{bio}</p>
-      </div>
       {pic && (
         <div className="img-wrapper">
           <img src={pic} />
         </div>
       )}
+      <div className="post-info">
+        <h1 className="title">{name}</h1>
+        <h3 className="short-info">{shortInfo}</h3>
+        <p className="bio">{bio}</p>
+      </div>
     </div>
   );
 };
