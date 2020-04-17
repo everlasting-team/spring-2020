@@ -13,7 +13,7 @@ class LeftNav extends React.Component {
     super(props);
     this.state = {
       cards: [],
-      filteredCards: null,
+      searchValue: "",
     };
   }
 
@@ -22,11 +22,15 @@ class LeftNav extends React.Component {
   }
 
   handleSearchInputChange = ({ target: { value } }) => {
-    const filteredCards = this.state.cards.filter(
-      (item) => item.name.toLowerCase().search(value.toLowerCase()) !== -1
-    );
+    this.setState({ searchValue: value });
+  };
 
-    this.setState({ filteredCards });
+  getFilteredCards = () => {
+    const { searchValue, cards } = this.state;
+
+    return cards.filter(
+      (card) => card.name.toLowerCase().search(searchValue.toLowerCase()) !== -1
+    );
   };
 
   loadCards = async () => {
@@ -35,21 +39,24 @@ class LeftNav extends React.Component {
     this.setState({ cards });
   };
 
-  handleCardButtonClick = (e, index) => {
+  handleCardButtonClick = (e, id) => {
     e.stopPropagation();
-
     const { activePostId, resetPost } = this.props;
     const { cards } = this.state;
-    const lastDisabledItem = cards.findIndex((item) => item.disabled);
-    const card = { ...cards[index], disabled: !cards[index].disabled };
-    const newCards = [...cards].filter((item, i) => i !== index);
+    const index = cards.findIndex((item) => item.id === id);
+    const newCards = [...cards];
+    const card = newCards[index];
+
+    card.disabled = !card.disabled;
 
     if (card.disabled) {
       card.id === activePostId && resetPost();
       card.deletedDate = moment().format("MMMM Do YYYY, h:mm:ss a");
+      newCards.splice(index, 1);
       newCards.push(card);
     } else {
       card.deletedDate = null;
+      newCards.splice(index, 1);
       newCards.unshift(card);
     }
 
@@ -57,8 +64,9 @@ class LeftNav extends React.Component {
   };
 
   render() {
-    const { searchValue, filteredCards, cards } = this.state;
+    const { searchValue } = this.state;
     const { handleCardClick, activePostId } = this.props;
+    const filteredCards = this.getFilteredCards();
 
     return (
       <div className="left-nav-wrapper">
@@ -71,13 +79,13 @@ class LeftNav extends React.Component {
           />
         </div>
         <div className="cards-wrapper">
-          {(filteredCards || cards).map((card, index) => (
+          {filteredCards.map((card) => (
             <Card
               key={card.id}
               data={card}
               selected={activePostId === card.id}
               onCardClick={() => handleCardClick(card)}
-              onButtonClick={(e) => this.handleCardButtonClick(e, index)}
+              onButtonClick={(e) => this.handleCardButtonClick(e, card.id)}
             />
           ))}
         </div>

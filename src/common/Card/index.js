@@ -30,7 +30,7 @@ const Card = ({ data, onCardClick, onButtonClick, selected }) => {
         <Button
           className={cn({ ["restore"]: disabled })}
           onButtonClick={onButtonClick}
-          name={disabled ? "🔙" : "🗑️"}
+          name={disabled ? "🔄" : "❌"}
         />
       </div>
       <div className="card-body">
