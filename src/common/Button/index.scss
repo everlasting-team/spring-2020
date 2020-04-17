@@ -1,13 +1,13 @@
 .button {
+  outline: none;
   cursor: pointer;
   margin: 5px;
-  border-radius: 50%;
-  border: 1px solid black;
-  background: red;
+  border: none;
   color: white;
+  background-color: transparent;
+  font-size: 18px;
 }
 
 .restore {
-  background: green;
-  color: black;
+  background-color: transparent;
 }

@@ -1,26 +1,36 @@
-import React, { PureComponent } from "react";
+import React from "react";
 
 import "./index.scss";
 
-class PostPage extends PureComponent {
-  getNotSelectedBlock = () => {
-    return <div className="post-page-wrapper no-posts">Choose card</div>;
-  };
-
-  render() {
-    if (!this.props.post) {
-      return this.getNotSelectedBlock();
-    }
-
+const PostPage = ({ post }) => {
+  const getNotSelectedBlock = () => {
     return (
-      <div className="post-page-wrapper">
-        {this.props.post && this.props.post.name && (
-          <div>{this.props.post.name}</div>
-        )}
-        {/* <div>{shortInfo}</div> */}
+      <div className="not-found-container">
+        <h1>Post not selected</h1>
       </div>
     );
+  };
+
+  if (!post) {
+    return getNotSelectedBlock();
   }
-}
+
+  const { name, pic, shortInfo, bio } = post;
+
+  return (
+    <div className="post-page-wrapper">
+      <div className="post-info">
+        <h1 className="title">{name}</h1>
+        <h3 className="short-info">{shortInfo}</h3>
+        <p className="bio">{bio}</p>
+      </div>
+      {pic && (
+        <div className="img-wrapper">
+          <img src={pic} />
+        </div>
+      )}
+    </div>
+  );
+};
 
 export default PostPage;

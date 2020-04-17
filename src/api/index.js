@@ -12,7 +12,7 @@ export const getCardsData = () =>
           name: item.name,
           shortInfo: item.shortInfo,
           more: item.more,
-          deleted: false,
+          disabled: false,
           deletedDate: null,
         };
       });

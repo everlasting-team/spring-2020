@@ -35,14 +35,28 @@ class Blog extends React.Component {
   };
 
   handleCardClick = (data) => {
-    this.setState({ post: data });
+    const { post } = this.state;
+
+    if (!post || data.id !== post.id) {
+      this.setState({ post: data });
+    }
+  };
+
+  resetPost = () => {
+    this.setState({ post: null });
   };
 
   render() {
     const { post } = this.state;
+    const postId = post ? post.id : null;
+
     return (
       <div className="blog">
-        <LeftNav handleCardClick={this.handleCardClick} />
+        <LeftNav
+          handleCardClick={this.handleCardClick}
+          activePostId={postId}
+          resetPost={this.resetPost}
+        />
         <PostPage post={post} />
       </div>
     );
